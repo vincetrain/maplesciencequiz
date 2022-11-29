@@ -1,33 +1,55 @@
+import { useState } from 'react';
+
 import './Question.css';
 
-function Question(props) {
-    function setAnswer(choice) {
-        userchoice = choice;
-        console.log('set choice to ' + userchoice)
-    }
+function Question({prompt, choices, answerIndex, onSubmission, onCorrect}) {
+    const [userChoice, setUserChoice] = useState('')
+    
+    const [feedback, setFeedback] = useState('FEEDBACK MESSAGE')
+    const [feedbackStyle, setFeedbackStyle] = useState('hidden')
 
-    function checkAnswer() {
-        if (userchoice === answer) {
-            console.log('correct!')
+    const [submitted, changeSubmissionStatus] = useState()
+
+    const handleSubmit = event => {
+        event.preventDefault()
+        changeSubmissionStatus(true)
+        onSubmission(true)
+        
+        if (userChoice == answerIndex) {
+            setFeedback('Your answer was correct! Good job!')
+            setFeedbackStyle('feedbackCorrect')
+            setUserChoice('')
+
+            onCorrect(1)
+        }
+        else {
+            setFeedback('Incorrect! The correct answer was: ' + choices[answerIndex])
+            setFeedbackStyle('feedbackIncorrect')
+            setUserChoice('')
+
+            onCorrect(0)
         }
     }
 
-    let userchoice;
-    let choices = props.choices;
-    let answer = props.answer;
-    let choiceMap = choices.map((choice) => {
-            return (
-                <label>
-                    <input classname = "option" type="radio" name="choice" value={choice} /> {choice}
-                </label>
-            )
-        })
-
+    let choiceMap = choices.map((choice, index) => {
+        return (
+            <label className = 'button' key={index}>
+                <input type='radio' name='choice' value={index} disabled = {submitted} onChange={event => { if (!submitted) {setUserChoice(event.target.value)}}} />{choice}
+            </label>
+        )
+    })
     return (
-        <form className="questionContainer">
-            <h1>{props.prompt}</h1>
-            {choiceMap}
-        </form>
+        <div className='questionContainer' onSubmit={handleSubmit}>
+            <div className='prompt'>
+                <h2>{prompt}</h2>
+            </div>
+            <form className='choiceForm'>
+                {choiceMap}
+                <button className='submitButton' type='submit' disabled = {!userChoice}>Submit</button>
+            </form>
+            <p className={feedbackStyle}>{feedback}</p>
+        </div>
+
     );
 }
  

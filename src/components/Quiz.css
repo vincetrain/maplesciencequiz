@@ -1,0 +1,46 @@
+.quizContainer {
+    height: 100%;
+}
+
+.quizContainer .nextButton {
+    display: flex;
+    position: fixed;
+    justify-content: center;
+    width: 100%;
+    padding: 5vw 0;
+
+    font-size: 2vh;
+    border: 0.1vw solid rgba(0, 0, 0, 0.1);
+    background-color: #5783db;
+    color: white;
+
+    bottom: 0;
+}
+
+.quizContainer .nextButton:disabled {
+    background-color: rgba(87, 131, 219, 0.3);
+}
+
+.endScreen {
+    margin: auto;
+    width: 75%;
+}
+
+.endScreen h1 {
+    font-size: 4vh;
+    margin-bottom: 0;
+}
+
+.endScreen h2 {
+    color: rgba(0,0,0,0.7);
+    font-size: 1.5vh;
+}
+
+.endScreen h3 {
+    color: rgba(0,0,0,0.7);
+}
+
+.endScreen img {
+    margin-top: 50%;
+    width: 75%;
+}
